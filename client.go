@@ -1,4 +1,4 @@
-package godis_client
+package main
 
 import (
 	"bufio"
