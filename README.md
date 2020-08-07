@@ -1,2 +1,2 @@
 # godis-client
-the client of godis server in Golang.
+the console client of godis server in Golang.
