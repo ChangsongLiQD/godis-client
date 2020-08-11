@@ -15,6 +15,9 @@ func decodeMessage(msg string, l int) []string {
 		}
 
 		size, err := strconv.Atoi(msgs[0][1:])
+		if size == -1 {
+			return []string{"(nil)"}
+		}
 		if err != nil {
 			return []string{"response error: $ type size invalid int"}
 		}
