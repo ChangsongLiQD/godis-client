@@ -1,4 +1,4 @@
-package godis_client
+package main
 
 import (
 	"bufio"
@@ -24,9 +24,9 @@ func main() {
 	conn, err := net.DialTCP("tcp4", nil, tcpAddr)
 	clientCheckError(err)
 	defer conn.Close()
-	printConsole()
 
 	for {
+		printConsole()
 		cmd, err := reader.ReadString('\n')
 		clientCheckError(err)
 		cmd = strings.Trim(cmd, "\n")
@@ -39,11 +39,11 @@ func main() {
 		clientCheckError(err)
 
 		if n == 0 {
-			printConsole("(nil)")
+			printInfo("read error: read 0 bytes")
 		} else if err == nil {
-			printConsole(string(buff))
+			printConsoleMessage(string(buff), n)
 		} else {
-			printConsole("server response err")
+			printInfo("server response err")
 		}
 	}
 }
@@ -59,12 +59,18 @@ func clientCheckError(err error) {
 	}
 }
 
-func printConsole(infos ...string) {
-	if len(infos) > 0 {
-		for _, info := range infos {
-			fmt.Print(info)
-		}
-		fmt.Println()
-	}
+func printConsole() {
 	fmt.Print(address + "> ")
+}
+
+func printConsoleMessage(msg string, num int) {
+	messages := decodeMessage(msg, num)
+
+	for _, message := range messages {
+		fmt.Println(message)
+	}
+}
+
+func printInfo(msg string) {
+	fmt.Println(msg)
 }
